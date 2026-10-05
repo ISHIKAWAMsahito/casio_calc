@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>フィーチャーグラフィック生成 (1024x500)</title>
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    canvas {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+      max-width: 90vw;
+      height: auto;
+    }
+    button {
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: #34C759;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="featureCanvas" width="1024" height="500"></canvas>
+  <button onclick="downloadFeature()">1024x500 PNG をダウンロード</button>
+
+  <script>
+    const canvas = document.getElementById('featureCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 1. 背景グラデーション
+    const grad = ctx.createLinearGradient(0, 0, 1024, 500);
+    grad.addColorStop(0, '#2C2C2E');
+    grad.addColorStop(1, '#1C1C1E');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1024, 500);
+
+    // 2. 左側：アイコングラフィック（緑の「＝」）
+    ctx.fillStyle = '#34C759';
+    const iconX = 220;
+    const barW = 150;
+    const barH = 34;
+    const r = 17;
+    const gap = 24;
+    const startY = (500 - (barH * 2 + gap)) / 2;
+
+    function drawRounded(x, y, w, h, radius) {
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, radius);
+      ctx.fill();
+    }
+    drawRounded(iconX, startY, barW, barH, r);
+    drawRounded(iconX, startY + barH + gap, barW, barH, r);
+
+    // 3. 右側：アプリタイトル & サブコピー（セーフゾーン内中央寄り）
+    const textX = 430;
+    
+    // メインタイトル
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 64px sans-serif';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('実務電卓', textX, 220);
+
+    // サブタイトル
+    ctx.fillStyle = '#A1A1A6';
+    ctx.font = '500 26px sans-serif';
+    ctx.fillText('見やすく押しやすい計算機', textX, 285);
+
+    function downloadFeature() {
+      const a = document.createElement('a');
+      a.download = 'feature_graphic.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }
+  </script>
+</body>
+</html>

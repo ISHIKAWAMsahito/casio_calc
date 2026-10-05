@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>アプリアイコン生成 (512x512)</title>
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+    }
+    canvas {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: #34C759;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="iconCanvas" width="512" height="512"></canvas>
+  <button onclick="downloadIcon()">512x512 PNG をダウンロード</button>
+
+  <script>
+    const canvas = document.getElementById('iconCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 1. 背景グラデーション (#2C2C2E から #1C1C1E へ)
+    const gradient = ctx.createLinearGradient(0, 0, 0, 512);
+    gradient.addColorStop(0, '#2C2C2E');
+    gradient.addColorStop(1, '#1C1C1E');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 512, 512);
+
+    // 2. アクセントカラー「=」記号の描画
+    ctx.fillStyle = '#34C759';
+
+    const barWidth = 260;        // 横幅 (全体の約50%)
+    const barHeight = 60;        // 線幅 (全体の約12%)
+    const cornerRadius = 30;     // 完全なカプセル形状 (高さの半分)
+    const gap = 46;              // 2本のバーの間隔
+    const startX = (512 - barWidth) / 2; // 中央揃え X座標
+    const totalHeight = (barHeight * 2) + gap;
+    const startY = (512 - totalHeight) / 2; // 中央揃え Y座標
+
+    // 角丸長方形を描画する関数
+    function drawRoundedRect(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, r);
+      ctx.fill();
+    }
+
+    // 上のバー
+    drawRoundedRect(startX, startY, barWidth, barHeight, cornerRadius);
+    // 下のバー
+    drawRoundedRect(startX, startY + barHeight + gap, barWidth, barHeight, cornerRadius);
+
+    // ダウンロード処理
+    function downloadIcon() {
+      const link = document.createElement('a');
+      link.download = 'icon_512x512.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+</html>

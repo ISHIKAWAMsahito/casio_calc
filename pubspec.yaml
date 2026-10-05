@@ -1,0 +1,41 @@
+name: casio_calc
+description: "実務電卓アプリ"
+publish_to: 'none'
+version: 1.0.0+10
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  decimal: ^3.0.1
+  provider: ^6.1.2
+  shared_preferences: ^2.3.0
+  cupertino_icons: ^1.0.6
+  google_mobile_ads: ^9.1.0
+  in_app_purchase: ^3.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.0
+
+flutter:
+  uses-material-design: true
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon.png"
+
+flutter_native_splash:
+  color: "#1C1C1E"
+  image: assets/icon.png
+  android_12:
+    color: "#1C1C1E"
+    image: assets/icon.png
